@@ -17,7 +17,8 @@ class App:
         if ((filePath == None) or (self.fileExist() == False) or (self.password == None)):
             self.mainMenu()
         
-        self.encryption = Encryption(filePath=self.filePath, password=self.password)
+        self.initEncryption()
+        
         try:
             self.data = self.encryption.decrypt()
 
@@ -42,6 +43,19 @@ class App:
                     self.mainMenu()
                 else:
                     self.password = getpass("Enter the file password: ")
+            
+            case 2:
+                self.filePath = input("Enter the directory for the file: ")
+                if (self.fileExist() == False):
+                    print("this directory doesn't exist.")
+                    wait()
+                    self.mainMenu()
+                else:
+                    self.filePath += "\\" + input("Enter a name for your password file: ")
+                    self.password = getpass("Enter the file password: ")
+                
+                self.initEncryption()
+                self.encryption.encrypt({"passwords": []})
 
             case 2:
                 raise NotImplementedError("Create password file")
@@ -128,6 +142,9 @@ class App:
         if find == False:
             print("This password doesn't exist")
             wait()
+    
+    def initEncryption(self):
+        self.encryption = Encryption(filePath=self.filePath, password=self.password)
     
     def fileExist(self) -> bool:
         if (exists(self.filePath)):
