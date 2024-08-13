@@ -1,9 +1,12 @@
 try:
-    from json import load
     from Encryption import Encryption
+    from os import system, name
     from os.path import exists
+    from getpass import getpass
 except:
     raise ImportError("Import of modules failed")
+
+clear = lambda: system('cls' if name == 'nt' else 'clear')
 
 class App:
     def __init__(self, filePath, password: str) -> None:
@@ -23,7 +26,8 @@ class App:
         
         self.run()
     
-    def mainMenu(self) -> None:        
+    def mainMenu(self) -> None:
+        clear()
         print("     Password Manager\n    ------------------\n")
         
         print("1. Open password file\n2. Create password file\n3. Exit")
@@ -35,7 +39,7 @@ class App:
                 if (self.fileExist() == False):
                     self.mainMenu()
                 else:
-                    self.password = input("Enter the file password: ")
+                    self.password = getpass("Enter the file password: ")
 
             case 2:
                 raise NotImplementedError("Create password file")
@@ -47,6 +51,7 @@ class App:
         isRunning = True
         
         while isRunning:
+            clear()
             print("     Password Manager\n    ------------------\n")
             
             print("1. Print passwords\n2. Add password\n3. Delete password\n4. Copy password\n5. Exit")
@@ -69,8 +74,13 @@ class App:
                     isRunning = False
     
     def printPasswords(self) -> None:
+        clear()
+        print("     Password Manager\n    ------------------\n")
+        print("Passwords: ")
         for password in self.data["passwords"]:
             print(f"{password["title"]} | {password["username"]} : {password["password"]}")
+            
+        input("Press enter to continue...")
     
     def fileExist(self) -> bool:
         if (exists(self.filePath)):
