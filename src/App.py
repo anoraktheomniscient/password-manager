@@ -1,5 +1,5 @@
 try:
-    from Encryption import Encryption
+    from src.Encryption import Encryption
     from os import system, name
     from os.path import exists
     from getpass import getpass

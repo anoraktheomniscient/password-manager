@@ -5,7 +5,7 @@ if __name__ == "__main__":
     
     try:
         import argparse
-        from App import App
+        from src.App import App
         from argparse import ArgumentError
     
     except ImportError as e:
