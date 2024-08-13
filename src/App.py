@@ -7,6 +7,7 @@ except:
     raise ImportError("Import of modules failed")
 
 clear = lambda: system('cls' if name == 'nt' else 'clear')
+wait = lambda: input("Press enter to continue...")
 
 class App:
     def __init__(self, filePath, password: str) -> None:
@@ -15,9 +16,9 @@ class App:
         if ((filePath == None) or (self.fileExist() == False) or (self.password == None)):
             self.mainMenu()
         
-        encryption = Encryption(filePath=self.filePath, password=self.password)
+        self.encryption = Encryption(filePath=self.filePath, password=self.password)
         try:
-            self.data = encryption.decrypt()
+            self.data = self.encryption.decrypt()
 
         except ValueError as e:
             print(f"[!] ValueError: {e}")
@@ -62,10 +63,10 @@ class App:
                     self.printPasswords()
                 
                 case 2:
-                    raise NotImplementedError("Add password method")
+                    self.addPassword()
                 
                 case 3:
-                    raise NotImplementedError("Delete password method")
+                    self.deletePassword()
                 
                 case 4:
                     raise NotImplementedError("Copy password method")
@@ -80,7 +81,32 @@ class App:
         for password in self.data["passwords"]:
             print(f"{password["title"]} | {password["username"]} : {password["password"]}")
             
-        input("Press enter to continue...")
+        wait()
+    
+    def addPassword(self) -> None:
+        clear()
+        print("     Password Manager\n    ------------------\n")
+        title = input("Enter the title: ")
+        username = input("Enter the user name: ")
+        password = getpass("Enter the password: ")
+        self.data["passwords"].append({"title": title, "username": username, "password": password})
+        self.encryption.encrypt(self.data)
+    
+    def deletePassword(self) -> None:
+        clear()
+        print("     Password Manager\n    ------------------\n")
+        title = input("Enter the password title: ")
+        
+        find = False
+        for password in self.data["passwords"]:
+            if password["title"] == title:
+                self.data["passwords"].remove(password)
+                self.encryption.encrypt(self.data)
+                find = True
+        
+        if find == False:
+            print("This password doesn't exist.")
+            wait()
     
     def fileExist(self) -> bool:
         if (exists(self.filePath)):
