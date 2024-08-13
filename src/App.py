@@ -3,6 +3,7 @@ try:
     from os import system, name
     from os.path import exists
     from getpass import getpass
+    from pyperclip import copy
 except:
     raise ImportError("Import of modules failed")
 
@@ -69,7 +70,7 @@ class App:
                     self.deletePassword()
                 
                 case 4:
-                    raise NotImplementedError("Copy password method")
+                    self.copyPassword()
                 
                 case 5:
                     isRunning = False
@@ -106,6 +107,26 @@ class App:
         
         if find == False:
             print("This password doesn't exist.")
+            wait()
+    
+    def copyPassword(self) -> None:
+        clear()
+        print("     Password Manager\n    ------------------\n")
+        title = input("Enter the password title: ")
+        
+        find = False
+        for password in self.data["passwords"]:
+            if password["title"] == title:
+                copy(password["username"])
+                print("User name has been copied")
+                wait()
+                copy(password["password"])
+                print("Password has been copied")
+                wait()
+                find = True
+        
+        if find == False:
+            print("This password doesn't exist")
             wait()
     
     def fileExist(self) -> bool:
