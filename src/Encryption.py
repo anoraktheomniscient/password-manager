@@ -33,6 +33,5 @@ class Encryption:
         
         cipher = AES.new(key=self.key, mode=AES.MODE_CBC, iv=iv)
         decrypted_data = unpad(cipher.decrypt(data), AES.block_size).decode('utf-8')
-        print(decrypted_data)
         
         return loads(decrypted_data)
