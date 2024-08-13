@@ -33,4 +33,3 @@ if __name__ == "__main__":
         exit(1)
     
     passwordManager = App(filePath=filePath, password="mypassword")
-    passwordManager.run()

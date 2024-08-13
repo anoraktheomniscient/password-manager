@@ -13,8 +13,10 @@ class App:
         
         encryption = Encryption(filePath=self.filePath, password=password)
         self.data = encryption.decrypt()
+        
+        self.run()
     
-    def mainMenu(self):
+    def mainMenu(self) -> None:        
         print("     Password Manager\n    ------------------\n")
         
         print("1. Open password file\n2. Create password file\n3. Exit")
@@ -33,17 +35,33 @@ class App:
                 exit(0)
 
     def run(self):
-        print("     Password Manager\n    ------------------\n")
+        isRunning = True
         
-        print("1. Read file\n5. Exit")
-        answer = input("What do you want to do? ")
-        
-        match int(answer):
-            case 1:
-                print(self.data)
+        while isRunning:
+            print("     Password Manager\n    ------------------\n")
             
-            case 5:
-                exit(0)
+            print("1. Print passwords\n2. Add password\n3. Delete password\n4. Copy password\n5. Exit")
+            answer = input("What do you want to do? ")
+            
+            match int(answer):
+                case 1:
+                    self.printPasswords()
+                
+                case 2:
+                    raise NotImplementedError("Add password method")
+                
+                case 3:
+                    raise NotImplementedError("Delete password method")
+                
+                case 4:
+                    raise NotImplementedError("Copy password method")
+                
+                case 5:
+                    isRunning = False
+    
+    def printPasswords(self) -> None:
+        for password in self.data["passwords"]:
+            print(f"{password["title"]} | {password["username"]} : {password["password"]}")
     
     def fileExist(self) -> bool:
         if (exists(self.filePath)):
