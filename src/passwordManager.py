@@ -20,9 +20,11 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(exit_on_error=True)
         
         parser.add_argument('-i', metavar='input',type=str, help='Enter the input file path')
+        parser.add_argument('-p', metavar='password',type=str, help='Enter the file password')
         
         args = parser.parse_args()
         filePath = args.i
+        password= args.p
     
     except ArgumentError as e:
         print(f"[!] ArgumentError: {e}")
@@ -32,4 +34,4 @@ if __name__ == "__main__":
         print(f"[!] Error: {e}")
         exit(1)
     
-    passwordManager = App(filePath=filePath, password="mypassword")
+    passwordManager = App(filePath=filePath, password=password)

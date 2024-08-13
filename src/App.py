@@ -8,11 +8,18 @@ except:
 class App:
     def __init__(self, filePath, password: str) -> None:
         self.filePath = filePath
-        if ((filePath == None) or (self.fileExist() == False)):
+        self.password = password
+        if ((filePath == None) or (self.fileExist() == False) or (self.password == None)):
             self.mainMenu()
         
-        encryption = Encryption(filePath=self.filePath, password=password)
-        self.data = encryption.decrypt()
+        encryption = Encryption(filePath=self.filePath, password=self.password)
+        try:
+            self.data = encryption.decrypt()
+
+        except ValueError as e:
+            print(f"[!] ValueError: {e}")
+            print(f"[!] Verify your password")
+            exit(2)
         
         self.run()
     
@@ -27,6 +34,8 @@ class App:
                 self.filePath = input("Enter the file path: ")
                 if (self.fileExist() == False):
                     self.mainMenu()
+                else:
+                    self.password = input("Enter the file password: ")
 
             case 2:
                 raise NotImplementedError("Create password file")
