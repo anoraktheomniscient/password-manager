@@ -15,7 +15,7 @@ class Encryption:
         
         self.key = PBKDF2(password=password, salt=self.salt, dkLen=32)
     
-    def encrypt(self, message: str) -> None:
+    def encrypt(self, message: dict) -> None:
         message = dumps(message)
         cipher = AES.new(key=self.key, mode=AES.MODE_CBC)
         encrypted_data = cipher.encrypt(pad(bytes(message, 'utf-8'), AES.block_size))
